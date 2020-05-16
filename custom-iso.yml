@@ -1,0 +1,7 @@
+---
+
+- name: Create custom ISO 
+  hosts: localhost
+
+  roles:
+    - custom_iso
