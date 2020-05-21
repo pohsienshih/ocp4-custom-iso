@@ -2,6 +2,7 @@
 
 - name: Create custom ISO 
   hosts: localhost
+  become: true
 
   roles:
     - custom_iso

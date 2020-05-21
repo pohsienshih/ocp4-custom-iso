@@ -34,7 +34,7 @@
 
 - name: Check hostname
   debug:
-    msg: "hostname is: {{ groups['all'] }}"
+    msg: "hostname is: {{ hostvars[item]['node_name_long'] }}"
   when: "'bootstrap' in hostvars[item]['group_names'] or 'masters' in hostvars[item]['group_names'] or 'infra-logmon' in hostvars[item]['group_names'] or 'workers' in hostvars[item]['group_names']"
   loop: "{{ groups['all'] }}"
 
@@ -64,5 +64,5 @@
 
 - name: Unmount RHCOS ISO file
   mount:
-    path: /iso
+    path: /mnt/iso
     state: absent

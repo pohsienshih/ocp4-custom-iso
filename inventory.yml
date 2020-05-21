@@ -64,6 +64,6 @@ all:
     install_dev: sda
     rhcos_iso_path: "roles/custom_iso/files/rhcos-4.3.8-x86_64-installer.x86_64.iso"
     httpd_server: "10.10.10.1"
-    image_url: "http://{{ httpd_server }}/install/rhcos-4.3.0-x86_64-metal.raw.gz"
+    image_url: "http://{{ httpd_server }}/install/rhcos-4.3.8-x86_64-metal.raw.gz"
     ignition_url: "http://{{ httpd_server }}/ignition/{{ hostvars[item]['original_ignition_file'] }}"
     add_boot_entry: "ip={{ hostvars[item]['node_ip'] }}::{{ vm_gateway }}:{{ vm_netmask }}:{{ hostvars[item]['node_name_long'] }}:{{ interface_name }}:none nameserver={{ vm_dns1 }} coreos.inst.install_dev={{ install_dev }} coreos.inst.image_url={{ image_url }} coreos.inst.ignition_url={{ ignition_url }}"
