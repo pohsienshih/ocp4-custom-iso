@@ -1,0 +1,62 @@
+all:
+  children:
+    bootstrap:
+      hosts:
+        bootstrap.ocp4.lab:
+          node_ip: 10.7.141.222
+          node_name_short: bootstrap
+          node_name_long: bootstrap.ocp4.lab
+      vars:
+        original_ignition_file: bootstrap.ign
+  
+    masters:
+      hosts:
+        master1.ocp4.lab:
+          node_ip: 10.7.141.223
+          node_name_short: master1
+          node_name_long: master1.ocp4.lab
+        master2.ocp4.lab:
+          node_ip: 10.7.141.224
+          node_name_short: master2
+          node_name_long: master2.ocp4.lab
+        master3.ocp4.lab:
+          node_ip: 10.7.141.225
+          node_name_short: master3
+          node_name_long: master3.ocp4.lab
+      vars:
+        original_ignition_file: master.ign
+
+    #iinfra-logmon:
+    #  hosts:
+    #    infra01.example.com:
+    #      node_ip: 10.7.141.226
+    #      node_name_short: infra01
+    #      node_name_long: infra01.example.com
+     # vars:
+    #    original_ignition_file: worker.ign
+
+    workers:
+      hosts:
+        worker1.ocp4.lab:
+          node_ip: 10.7.141.226
+          node_name_short: worker1
+          node_name_long: worker1.ocp4.lab
+        worker2.ocp4.lab:
+          node_ip: 10.7.141.227
+          node_name_short: worker2
+          node_name_long: worker2.ocp4.lab
+      vars:
+        original_ignition_file: worker.ign
+
+  vars:
+    interface_name: ens3
+    vm_netmask: 255.255.192.0
+    vm_gateway: 10.7.128.1
+    vm_dns1: 10.7.141.201
+    vm_dns2: 8.8.8.8
+    install_dev: sda
+    rhcos_iso_path: "roles/custom_iso/rhcos-4.5.6-x86_64-installer.x86_64.iso"
+    httpd_server: "10.7.141.221:8080"
+    image_url: "http://{{ httpd_server }}/ocp4/rhcos-4.5.6-x86_64-metal.x86_64.raw.gz"
+    ignition_url: "http://{{ httpd_server }}/ocp4/{{ hostvars[item]['original_ignition_file'] }}"
+    add_boot_entry: "ip={{ hostvars[item]['node_ip'] }}::{{ vm_gateway }}:{{ vm_netmask }}:{{ hostvars[item]['node_name_long'] }}:{{ interface_name }}:none nameserver={{ vm_dns1 }} nameserver={{ vm_dns2 }} coreos.inst.install_dev={{ install_dev }} coreos.inst.image_url={{ image_url }} coreos.inst.ignition_url={{ ignition_url }}"
